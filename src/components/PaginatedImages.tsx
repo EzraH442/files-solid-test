@@ -6,9 +6,10 @@ import {
   HiSolidChevronLeft,
   HiSolidChevronRight,
 } from 'solid-icons/hi';
-import ImageComponent from './Image';
+import MediaComponent from './Image';
+import MediaPopup from './ImagePopup';
 
-interface IFile {
+export interface IFile {
   name: string;
   id: string;
 }
@@ -18,8 +19,23 @@ interface IPaginatedImagesProps {
 }
 
 const PaginatedImages: Component<IPaginatedImagesProps> = ({ files }) => {
-  const max = Math.trunc(files.length / 100);
+  const pageSize = 100;
+  const max = Math.trunc(files.length / pageSize);
   const [page, setPage] = createSignal(0);
+  const [popupOpen, setPopupOpen] = createSignal(false);
+  const [popupSrc, setPopupSrc] = createSignal<string | undefined>();
+
+  const onClick = (src: string) => {
+    setPopupSrc(src);
+    setPopupOpen(true);
+  };
+
+  const onClose = () => {
+    setPopupOpen(false);
+    setPopupSrc(undefined);
+  };
+
+  console.log(files);
 
   const setStart = () => {
     setPage(0);
@@ -54,12 +70,20 @@ const PaginatedImages: Component<IPaginatedImagesProps> = ({ files }) => {
         {files
           .filter(
             (f, i) =>
-              Math.trunc(i / 100) < page() + 1 &&
-              Math.trunc(i / 100) > page() - 1,
+              Math.trunc(i / pageSize) < page() + 1 &&
+              Math.trunc(i / pageSize) > page() - 1,
           )
           .map((file, i) => (
-            <div class="p-1">
-              <ImageComponent
+            <div
+              class="p-1"
+              onclick={() =>
+                onClick(
+                  `https://static.ezrahuang.com/file/ezrah442-testing/${file.name}`,
+                )
+              }
+            >
+              <MediaComponent
+                className="h-32 w-auto"
                 src={`https://static.ezrahuang.com/file/ezrah442-testing/${file.name}`}
               />
             </div>
@@ -72,6 +96,8 @@ const PaginatedImages: Component<IPaginatedImagesProps> = ({ files }) => {
         <HiSolidChevronRight size={24} onclick={() => inc()} />
         <HiSolidChevronDoubleRight size={24} onclick={setEnd} />
       </div>
+
+      <MediaPopup src={popupSrc()} open={popupOpen()} onClose={onClose} />
     </div>
   );
 };

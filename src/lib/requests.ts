@@ -6,7 +6,8 @@ interface JWTResponse {
 
 const makeLoginRequest = async (body: URLSearchParams) => {
   const loginResponse: JWTResponse = await fetch(
-    `${import.meta.env.VITE_authUrl}/auth`,
+    // `${import.meta.env.VITE_authUrl}/auth`,
+    `https://auth.ezrahuang.com/auth`,
     {
       mode: 'cors',
       method: 'POST',
@@ -28,7 +29,7 @@ interface VerifyResponse {
 
 const makeVerifyRequest = async (body: URLSearchParams) => {
   const verifyResponse: VerifyResponse = await fetch(
-    `${import.meta.env.VITE_authUrl}/verify`,
+    `https://auth.ezrahuang.com/verify`,
     {
       mode: 'cors',
       method: 'POST',

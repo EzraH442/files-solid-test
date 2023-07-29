@@ -17,7 +17,7 @@ pipeline {
     stage('build main') {
       when { branch 'main' }
       steps {
-        sh 'docker build -t ezraweb/files:latest --build-arg VITE_hcaptchaSitekey="${VITE_hcaptchaSitekey}" --build-arg VITE_gatewayUrl="${VITE_gatewayUrl}" VITE_authUrl="${VITE_authUrl} .'
+        sh 'docker build -t ezraweb/files:latest --build-arg VITE_hcaptchaSitekey="${VITE_hcaptchaSitekey}" --build-arg VITE_gatewayUrl="${VITE_gatewayUrl}" VITE_authUrl="${VITE_authUrl}" .'
       }
     }
   }

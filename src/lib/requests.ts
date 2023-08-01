@@ -3,7 +3,7 @@ interface JWTResponse {
   token?: string;
   err?: string;
 }
-
+//
 const makeLoginRequest = async (body: URLSearchParams) => {
   const loginResponse: JWTResponse = await fetch(
     `${import.meta.env.VITE_authUrl}/auth`,
